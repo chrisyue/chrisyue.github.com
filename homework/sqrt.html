@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<title>square root</title>
+<script type="text/javascript" charset="utf-8">
+    //<![CDATA[
+function mySqrt(param)
+{
+  var ret = 1;
+  for (var i = 0; i < 9; i++) {
+    var tmp = param / ret;
+    ret = (tmp + ret) / 2;
+  }
+  return ret;
+}
+
+function ntSqrt(param)
+{
+  var ret = 1;
+  for (var i = 0; i < 9; i++) {
+    ret = ret - 0.5 * (ret * ret - param) / ret;
+  }
+  return ret;
+}
+
+onload = function() {
+  var form = document.getElementById("form");
+  var param = document.getElementById("param");
+  var normal = document.getElementById("result_normal");
+  var newton = document.getElementById("result_newton");
+  var library = document.getElementById("result_library");
+  form.onsubmit = function() {
+    normal.innerHTML = mySqrt(param.value);
+    newton.innerHTML = ntSqrt(param.value);
+    library.innerHTML = Math.sqrt(param.value);
+    return false;
+  };
+}
+    //]]>
+  </script>
+</head>
+<body>
+<form action="#" id="form">
+<div>
+<input type="text" name="param" id="param"/>
+<input type="submit" value="Continue &rarr;"/>
+</div>
+</form>
+<ul>
+<li>普通算法结果：<span id="result_normal"></span></li>
+<li>牛顿方法结果：<span id="result_newton"></span></li>
+<li>系统方法结果：<span id="result_library"></span></li>
+</ul>
+<p>
+<a href="http://validator.w3.org/check?uri=referer"><img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0 Strict" height="31" width="88"/></a>
+</p>
+</body>
+</html>

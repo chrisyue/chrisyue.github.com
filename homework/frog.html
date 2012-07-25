@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<title>Frog Puzzle</title>
+<style type="text/css">
+  body {
+    background: #000;
+    color: #0f3;
+  }
+  #frame a {
+    font-size: 64px;
+    font-weight: bold;
+    padding: 10px;
+    color: #0f3;
+    width: 80px;
+  }
+
+  #frame .frog0 {
+    visibility: hidden;
+  }
+</style>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+function Game(pattern) {
+  var init = pattern;
+  var foo  = pattern.split('0');
+  var goal = foo[1] + '0' + foo[0];
+  var open = [{ path: [], stat: init }]; 
+  var close = [init];
+
+  var getNextSteps = function(stat) {
+    var Opos = stat.indexOf("0");
+    var ret = [];
+    for (var i = Opos - 2; i <= Opos + 2; i++) {
+      if (i < 0) continue;
+      if (i > stat.length) continue;
+      if (Opos === i) continue;
+      if (i < Opos && stat[i] === "2") continue;
+      if (i > Opos && stat[i] === "1") continue;
+      ret.push(i);
+    }
+    return ret;
+  };
+
+  var switchPos = function(stat, pos) {
+    var Opos = stat.indexOf("0");
+    var ret = stat.split("");
+    var tmp = ret[pos];
+    ret[pos] = ret[Opos];
+    ret[Opos] = tmp;
+    return ret.join("");
+  }
+  
+  var getSolution = function(open, close) {
+    var newOpen = [];
+    for (var i = 0; i < open.length; i++) {
+      var nextSteps = getNextSteps(open[i].stat);
+      for (var j = 0; j < nextSteps.length; j++) {
+        var stat = switchPos(open[i].stat, nextSteps[j]);
+        if ($.inArray(stat, close) >= 0) continue;
+        var newPath = open[i].path.slice(0);
+        newPath.push(nextSteps[j]);
+        if (stat === goal) {
+          return newPath;
+        } 
+        // else
+        close.push(stat);
+        newOpen.push({ path: newPath, stat: stat });
+      }
+    }
+    return getSolution(newOpen, close);
+  };
+
+  var move = function(self) {
+    if (self.html() === "1") {
+      if (self.next().html() === "0") {
+        self.insertAfter(self.next());
+      } else if (self.next().next().html() === "0") {
+        self.insertAfter(self.next());
+        self.next().insertBefore(self.prev());
+      }
+    } else if (self.html() === "2") {
+      if (self.prev().html() === "0") {
+        self.insertBefore(self.prev());
+      } else if (self.prev().prev().html() === "0") {
+        self.insertBefore(self.prev());
+        self.prev().insertAfter(self.next());
+      }
+    }
+  };
+
+  this.draw = function() {
+    for (var i = 0; i < init.length; i++) {
+      var a = $('<a>');
+      a.html(init[i]).attr('href', '#').appendTo("#frame")
+        .addClass("frog"+init[i]);
+      if (init[i] !== "0") {
+        a.html(init[i]).click(function(e) {
+          e.preventDefault();
+          move($(this));
+        });
+      }
+    }
+  };
+
+  this.destroy = function() {
+    $('#frame').empty();
+  };
+
+  this.redraw = function() {
+    this.destroy();
+    this.draw();
+  };
+
+  var moveByOrder = function(path, interval) {
+    if (path.length) {
+      move($('#frame a').eq(path.shift()));
+      setTimeout(function() {
+        moveByOrder(path, interval);
+      }, interval);
+    }
+  };
+
+  this.solve = function() {
+    moveByOrder(getSolution(open, close), 1000);
+  };
+}
+
+$(function() {
+  var game = new Game("1110222");
+  game.draw();
+
+  $('#solve').click(function(e) {
+    e.preventDefault();
+    game.redraw();
+    setTimeout(function() {
+      game.solve();
+    }, 1000);
+  });
+
+  $('#6-frogs').click(function(e) {
+    e.preventDefault();
+    game = new Game("1110222");
+    game.redraw();
+  });
+
+  $('#8-frogs').click(function(e) {
+    e.preventDefault();
+    game = new Game("111102222");
+    game.redraw();
+  });
+
+  $('#10-frogs').click(function(e) {
+    e.preventDefault();
+    game = new Game("11111022222");
+    game.redraw();
+  });
+});
+
+//]]>
+</script>
+</head>
+<body>
+<h1>Frog Puzzle</h1>
+<p>"1" or "2" represents a frog. A frog can jump over no more than one another frog. Frog "1" can only jump to the right and frog "2" the opposite</p>
+<div id="frame"></div>
+<p>
+<a id="6-frogs" href="#6">6 frogs</a>
+<a id="8-frogs" href="#8">8 frogs</a>
+<a id="10-frogs" href="#10">10 frogs</a>
+</p>
+<p><a id="solve" href="#solve">Solve</a></p>
+</body>
+</html>
