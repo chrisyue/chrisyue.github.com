@@ -7,12 +7,9 @@
     <title>square root</title>
     <script type="text/javascript" charset="utf-8">
       //<![CDATA[
-function mySqrt(param, useMagicNumber)
+function mySqrt(param)
 {
   var ret = 1;
-  if (useMagicNumber) {
-    ret = 0x5f3759df;
-  }
   for (var i = 0; i < 9; i++) {
     var tmp = param / ret;
     ret = (tmp + ret) / 2;
@@ -23,9 +20,6 @@ function mySqrt(param, useMagicNumber)
 function ntSqrt(param)
 {
   var ret = 1;
-  if (useMagicNumber) {
-    ret =  0x5f3759df;
-  }
   for (var i = 0; i < 9; i++) {
     ret = ret - 0.5 * (ret * ret - param) / ret;
   }
@@ -36,17 +30,13 @@ onload = function() {
   var form = document.getElementById("form");
   var param = document.getElementById("param");
   var normal = document.getElementById("result_normal");
-  var normal_ = document.getElementById("result_normal_");
   var newton = document.getElementById("result_newton");
-  var newton_ = document.getElementById("result_newton_");
   var library = document.getElementById("result_library");
-  form.onsubmit = function() {
+  form.onsubmit = function(e) {
+    e.preventDefault();
     normal.innerHTML = mySqrt(param.value);
-    normal_.innerHTML = mySqrt(param.value, true);
     newton.innerHTML = ntSqrt(param.value);
-    newton_.innerHTML = ntSqrt(param.value, true);
     library.innerHTML = Math.sqrt(param.value);
-    return false;
   };
 }
 //]]>
