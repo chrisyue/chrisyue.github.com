@@ -1064,7 +1064,7 @@ $(function() {
             }
         }
     }).addScene("figure8", {
-        start: 9500, end: 11400,
+        start: 9500, end: 11600,
         performAt: function(time) {
             var role = $("#figure8");
             if (this.start < time && time <= 9720) {
