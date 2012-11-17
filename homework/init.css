@@ -1,0 +1,77 @@
+body {
+    background: #eec;
+}
+
+img {
+    box-shadow: 1px 2px 3px #333;
+}
+
+p {
+    width: 480px;
+    font-family: Arial;
+    letter-spacing: 1px;
+}
+
+.chapter {
+    width: 200px;
+    font-size: 200%;
+}
+
+.actor {
+    position: fixed;
+}
+
+#declaration {
+    width: 600px;
+    text-align: center;
+}
+
+#title {
+    font-size: 500%;
+    width: 400px;
+    text-align: center;
+    font-family: Arial;
+}
+
+#author {
+    width: 200px;
+    display: block;
+    text-align: center;
+}
+
+#p11 {
+    text-align: center;
+}
+
+#moon {
+    width: 100px; height: 100px;
+    border-radius: 50px;
+    background: #ec0;
+}
+
+
+#atmosphere {
+    left: 0;
+    background: linear-gradient(to bottom, #000 0%, #001 25%, #229 85%, #fa6 100%);
+    background: -webkit-linear-gradient(top, #000 0%, #001 25%, #229 85%, #fa6 100%)
+}
+
+#section2 {
+    color: #eee;
+    text-shadow: 0 0 2px #ddd;
+}
+
+#rainbow {
+    top: 100px; left: -120%;
+    height: 120px; width: 100%;
+    background: linear-gradient(to bottom, #f00 0%, #ff0 20%, #0f0 40%, #0ff 60%, #00f 80%, #204 100%);
+    background: -webkit-linear-gradient(top, #f00 0%, #ff0 20%, #0f0 40%, #0ff 60%, #00f 80%, #204 100%);
+    text-align: right;
+}
+
+#rainbow img {
+    box-shadow: 0 0 0 0 #000;
+    position: relative;
+    right: -100px;
+    top: -20px;
+}
